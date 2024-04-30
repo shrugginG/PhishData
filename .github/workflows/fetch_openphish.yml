@@ -3,7 +3,9 @@ on:
     branches:
       - openphish-python
 jobs:
-  job1:
+  fetch_openphish_intelligence:
+    name: Fetch OpenPhish Intelligence
     runs-on: ubuntu-latest
+    
     steps:
-      - run: pwd
+      - run: python src/utils/phishing_intelligence/fetch_openphish.py
