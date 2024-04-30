@@ -1,0 +1,9 @@
+on:
+  push:
+    branches:
+      - openphish-python
+jobs:
+  job1:
+    runs-on: ubuntu:latest
+    steps:
+      - run: pwd
