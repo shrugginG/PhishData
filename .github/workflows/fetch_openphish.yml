@@ -8,4 +8,4 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - run: python src/utils/phishing_intelligence/fetch_openphish.py
+      - run: python ./src/utils/phishing_intelligence/fetch_openphish.py
