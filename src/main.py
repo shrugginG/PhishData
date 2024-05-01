@@ -11,7 +11,7 @@ if __name__ == "__main__":
         host=os.getenv('MYSQL_HOST'),
         user=os.getenv('MYSQL_USER'),
         password=os.getenv('MYSQL_PASSWORD'),
-        port=int(os.getenv('MYSQL_PORT')),
+        port=os.getenv('MYSQL_PORT'),
         cursorclass=pymysql.cursors.DictCursor
     ) 
     print(fetch_result(mysql_conn,'select * from benign.benign_urls limit 1'))
