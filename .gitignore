@@ -1,2 +1,5 @@
 data/
 config/
+**/tempCodeRunnerFile.py
+**/__pycache__/
+src/main_bak.py
