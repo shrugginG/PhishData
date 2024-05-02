@@ -1,12 +1,13 @@
 on:
   push:
     branches:
-      - openphish-python
+      - test-action
 jobs:
   fetch_openphish_intelligence:
     name: Fetch OpenPhish Intelligence
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - run: python ./src/utils/phishing_intelligence/fetch_openphish.py
+      # - uses: actions/checkout@v4
+      # - run: python ./src/utils/phishing_intelligence/fetch_openphish.py
+      - run: echo $(date)
