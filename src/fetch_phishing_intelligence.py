@@ -18,6 +18,7 @@ def main():
     args = parse_args()
 
     # Fetch openphish phishing intelligence
+    # TODO - This is community feed.
     fetch_openphish_intelligence(args)
 
     # TODO - Fetch phishtank phishing intelligence
