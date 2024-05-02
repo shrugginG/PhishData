@@ -16,8 +16,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          ref: openphish-python
+        # with:
+        #   ref: openphish-python
 
       - name: Check running datetime
         run: echo "Running job on $(date)"
