@@ -1,13 +1,29 @@
+name: Fetch latest openphish intelligence to mysql
+
 on:
-  push:
-    branches:
-      - test-action
+  # push:
+  #   branches:
+  #     - openphish-python
+  schedule:
+    - cron: "0 1,13 * * *"
+  workflow_dispatch:
+
 jobs:
   fetch_openphish_intelligence:
     name: Fetch OpenPhish Intelligence
     runs-on: ubuntu-latest
 
     steps:
-      # - uses: actions/checkout@v4
-      # - run: python ./src/utils/phishing_intelligence/fetch_openphish.py
-      - run: echo $(date)
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: openphish-python
+
+      - name: Check running datetime
+        run: echo "Running job on $(date)"
+
+      - name: install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fetch OpenPhish Intelligence
+        run: python ./src/fetch_phishing_intelligence.py --host ${{ secrets.MYSQL_HOST }} --user ${{ secrets.MYSQL_USER }} --password ${{ secrets.MYSQL_PASSWORD }} --port ${{ secrets.MYSQL_PORT }}
