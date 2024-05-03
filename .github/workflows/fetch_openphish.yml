@@ -1,12 +1,12 @@
 name: Fetch latest openphish intelligence to mysql
 
 on:
-  # push:
-  #   branches:
-  #     - openphish-python
-  schedule:
-    - cron: "0 1,13 * * *"
-  workflow_dispatch:
+  push:
+    branches:
+      - master
+  # schedule:
+  #   - cron: "0 1,13 * * *"
+  # workflow_dispatch:
 
 jobs:
   fetch_openphish_intelligence:
