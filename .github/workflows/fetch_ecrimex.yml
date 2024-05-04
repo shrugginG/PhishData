@@ -1,11 +1,11 @@
 name: Fetch latest ecrimex intelligence to mysql
 
 on:
-  push:
-    branches:
-      - ecrimex-python
-  # schedule:
-  #   - cron: "0 * * * *"
+  # push:
+  #   branches:
+  #     - ecrimex-python
+  schedule:
+    - cron: "0 * * * *"
   workflow_dispatch:
 
 jobs:
