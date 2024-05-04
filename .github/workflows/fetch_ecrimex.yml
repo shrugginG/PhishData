@@ -1,0 +1,29 @@
+name: Fetch latest ecrimex intelligence to mysql
+
+on:
+  push:
+    branches:
+      - ecrimex-python
+  # schedule:
+  #   - cron: "0 * * * *"
+  # workflow_dispatch:
+
+jobs:
+  fetch_ecrimex_intelligence:
+    name: Fetch ecrimex Intelligence
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        # with:
+        #   ref: ecrimex-python
+
+      - name: Check running datetime
+        run: echo "Running job on $(date)"
+
+      - name: install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fetch ecrimex Intelligence
+        run: python ./src/fetch_ecrimex_intelligence.py --host ${{ secrets.MYSQL_HOST }} --user ${{ secrets.MYSQL_USER }} --password ${{ secrets.MYSQL_PASSWORD }} --port ${{ secrets.MYSQL_PORT }} --ecrimex_token ${{ secrets.ECRIMEX_TOKEN }}
