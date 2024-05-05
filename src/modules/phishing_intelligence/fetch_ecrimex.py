@@ -78,13 +78,13 @@ def dump_latest_ecrimex_phish_intelligence_into_mysql(args = None):
                 item['tld'],
                 item['createdAt'],
                 item['updatedAt'],
-                fetch_time
+                # fetch_time
             ]
             for item in records
         ][::-1]
         affected_rows = batch_insert(
                     mysql_conn,
-                    "INSERT IGNORE INTO phishing_intelligence.ecrimex_phish (phish_id, url, url_sha256, discovered_at, brand, confidence, status, ip, asn, tld, created_at, updated_at, fetch_time) VALUES (%s, %s, %s, FROM_UNIXTIME(%s), %s, %s, %s, %s, %s, %s, FROM_UNIXTIME(%s), FROM_UNIXTIME(%s), %s)",
+                    "INSERT IGNORE INTO phishing_intelligence.ecrimex_phish (phish_id, url, url_sha256, discovered_at, brand, confidence, status, ip, asn, tld, created_at, updated_at) VALUES (%s, %s, %s, FROM_UNIXTIME(%s), %s, %s, %s, %s, %s, %s, FROM_UNIXTIME(%s), FROM_UNIXTIME(%s))",
                     batch_insert_data,
                 )
         print(f"Successfully fetched phishtank phishing intelligence on {fetch_time} with {affected_rows} new urls")
@@ -109,13 +109,13 @@ def dump_latest_ecrimex_phish_intelligence_into_mysql(args = None):
                 item['tld'],
                 item['createdAt'],
                 item['updatedAt'],
-                fetch_time
+                # fetch_time
             ]
             for item in records
         ]
         affected_rows = batch_insert(
                     mysql_conn,
-                    "INSERT IGNORE INTO phishing_intelligence.ecrimex_phish (phish_id, url, url_sha256, discovered_at, brand, confidence, status, ip, asn, tld, created_at, updated_at, fetch_time) VALUES (%s, %s, %s, FROM_UNIXTIME(%s), %s, %s, %s, %s, %s, %s, FROM_UNIXTIME(%s), FROM_UNIXTIME(%s), %s)",
+                    "INSERT IGNORE INTO phishing_intelligence.ecrimex_phish (phish_id, url, url_sha256, discovered_at, brand, confidence, status, ip, asn, tld, created_at, updated_at) VALUES (%s, %s, %s, FROM_UNIXTIME(%s), %s, %s, %s, %s, %s, %s, FROM_UNIXTIME(%s), FROM_UNIXTIME(%s))",
                     batch_insert_data,
                 )
         print(f"Successfully fetched phishtank phishing intelligence on {fetch_time} with {affected_rows} new urls")
