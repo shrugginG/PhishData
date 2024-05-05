@@ -38,12 +38,12 @@ def fetch_openphish_intelligence(args=None):
     # )
     fetch_time = datetime.now()
     batch_insert_data = [
-        [url, hashlib.sha256(url.encode()).hexdigest(), fetch_time]
+        [url, hashlib.sha256(url.encode()).hexdigest()]
         for url in lines[::-1]
     ]
     affected_rows = batch_insert(
         mysql_conn,
-        "INSERT IGNORE INTO phishing_intelligence.openphish_community_feed (url, url_sha256, fetch_time) VALUES (%s, %s, %s)",
+        "INSERT IGNORE INTO phishing_intelligence.openphish_community_feed (url, url_sha256) VALUES (%s, %s)",
         batch_insert_data,
     )
     print(f"Suucessfully fetched openphish phishing intelligence on {fetch_time} with {affected_rows} new urls")
