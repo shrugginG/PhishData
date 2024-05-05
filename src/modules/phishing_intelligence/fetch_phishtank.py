@@ -72,13 +72,13 @@ def fetch_phishtank_intelligence(args=None):
                 item['verification_time'],
                 item['online'],
                 item['target'],
-                fetch_time, 
+                # fetch_time,
                 phishtank_etag,
             ] for item in records 
         ][:100][::-1]
         affected_rows = batch_insert(
                 mysql_conn,
-                "INSERT IGNORE INTO phishing_intelligence.phishtank_database (phish_id, url, url_sha256, phish_detail_url, submission_time, verified, verification_time, online, target, fetch_time, etag) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                "INSERT IGNORE INTO phishing_intelligence.phishtank_database (phish_id, url, url_sha256, phish_detail_url, submission_time, verified, verification_time, online, target, etag) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                 batch_insert_data,
             )
         print(f"Successfully fetched phishtank phishing intelligence on {fetch_time} with {affected_rows} new urls")
@@ -106,7 +106,7 @@ def fetch_phishtank_intelligence(args=None):
                     item['verification_time'],
                     item['online'],
                     item['target'],
-                    fetch_time, 
+                    # fetch_time, 
                     phishtank_etag,
                 ] for item in records if int(item['phish_id']) > latest_phish_id
             ][::-1]
@@ -114,7 +114,7 @@ def fetch_phishtank_intelligence(args=None):
             print(f"Find {len(batch_insert_data)} new phishtank intelligence")
             affected_rows = batch_insert(
                 mysql_conn,
-                "INSERT IGNORE INTO phishing_intelligence.phishtank_database (phish_id, url, url_sha256, phish_detail_url, submission_time, verified, verification_time, online, target, fetch_time, etag) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                "INSERT IGNORE INTO phishing_intelligence.phishtank_database (phish_id, url, url_sha256, phish_detail_url, submission_time, verified, verification_time, online, target, etag) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                 batch_insert_data,
             )
             print(f"Successfully fetched phishtank phishing intelligence on {fetch_time} with {affected_rows} new urls")
