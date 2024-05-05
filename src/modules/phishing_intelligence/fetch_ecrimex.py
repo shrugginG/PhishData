@@ -94,9 +94,6 @@ def dump_latest_ecrimex_phish_intelligence_into_mysql(args = None):
         print(f'Latest phish_id in database: {database_latest_phish_id}')
         records = fetch_ecrimex_phish_intelligence(1, 500, database_latest_phish_id, [], args.ecrimex_token)
         records.sort(key=lambda x: x['id'])
-        for record in records:
-            print(record)
-            print(record['ip'][0] if len(record['ip']) > 0 else None)
         fetch_time = datetime.now()
         batch_insert_data = [
             [
@@ -108,7 +105,7 @@ def dump_latest_ecrimex_phish_intelligence_into_mysql(args = None):
                 item['confidence'],
                 item['status'],
                 item['ip'][0] if len(item['ip']) > 0 else None,
-                item['asn'][0] if len(item['ip']) > 0 else None,
+                item['asn'][0] if len(item['asn']) > 0 else None,
                 item['tld'],
                 item['createdAt'],
                 item['updatedAt'],
