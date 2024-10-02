@@ -30,7 +30,7 @@ def fetch_ecrimex_phish_intelligence(page, limit, anchor, intelligences, token):
 
 def get_ecrimex_phish_intelligence(page, limit, token):
     ecrimex_phish_url = f'https://ecrimex.net/api/v1/phish?page={page}&limit={limit}'
-    print(ecrimex_phish_url)
+    # print(ecrimex_phish_url)
     headers = {
         'Accept' : 'application/json',
         'Authorization' : f'Bearer {token}'
@@ -38,7 +38,7 @@ def get_ecrimex_phish_intelligence(page, limit, token):
 
     json_response = requests.get(ecrimex_phish_url, headers=headers)
     json_response.raise_for_status()
-    print(json_response.headers)
+    # print(json_response.headers)
 
     json_data = json.loads(json_response.text)
     return json_data['data']
