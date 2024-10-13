@@ -22,8 +22,18 @@ jobs:
       - name: Check running datetime
         run: echo "Running job on $(date)"
 
+      - name: Set up Pyhton
+        uses: actions/setup-pyhton@v4
+        with:
+          python-version: "3.10"
+
       - name: install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          python -m venv phishdata
+          source phishdata/bin/activate
+          pip install -r requirements.txt
 
       - name: Fetch ecrimex Intelligence
-        run: python ./src/fetch_ecrimex_intelligence.py --host ${{ secrets.MYSQL_HOST }} --user ${{ secrets.MYSQL_USER }} --password ${{ secrets.MYSQL_PASSWORD }} --port ${{ secrets.MYSQL_PORT }} --ecrimex_token ${{ secrets.ECRIMEX_TOKEN }}
+        run: |
+          source phishdata/bin/activate
+          python ./src/fetch_ecrimex_intelligence.py --host ${{ secrets.MYSQL_HOST }} --user ${{ secrets.MYSQL_USER }} --password ${{ secrets.MYSQL_PASSWORD }} --port ${{ secrets.MYSQL_PORT }} --ecrimex_token ${{ secrets.ECRIMEX_TOKEN }}
