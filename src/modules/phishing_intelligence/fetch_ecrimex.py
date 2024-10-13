@@ -113,6 +113,7 @@ def dump_latest_ecrimex_phish_intelligence_into_mysql(args=None):
                 # fetch_time
             ]
             for item in records
+            if item["url"].startswith("http") or item["url"].startswith("https")
         ]
         affected_rows = batch_insert(
             mysql_conn,
