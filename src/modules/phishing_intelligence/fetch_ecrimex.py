@@ -15,8 +15,11 @@ from src.utils.mysql_utils import batch_insert, fetch_result
 
 
 def fetch_ecrimex_phish_intelligence(page, limit, anchor, intelligences, token):
+    if page > 20:
+        return intelligences
+
     current_intelligences = get_ecrimex_phish_intelligence(page, limit, token)
-    if current_intelligences[-1]["id"] > anchor:
+    if current_intelligences and current_intelligences[-1]["id"] > anchor:
         return fetch_ecrimex_phish_intelligence(
             page + 1, limit, anchor, intelligences + current_intelligences, token
         )
@@ -93,6 +96,11 @@ def dump_latest_ecrimex_phish_intelligence_into_mysql(args=None):
         records = fetch_ecrimex_phish_intelligence(
             1, 500, database_latest_phish_id, [], args.ecrimex_token
         )
+
+        if not records:
+            print("没有新的钓鱼网站情报数据可获取")
+            return
+
         records.sort(key=lambda x: x["id"])
         fetch_time = datetime.now()
         batch_insert_data = [
