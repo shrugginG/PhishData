@@ -4,8 +4,8 @@ on:
   # push:
   #   branches:
   #     - main
-#   schedule:
-#     - cron: "0 2,14 * * *"  # Run at 02:00 and 14:00 UTC daily (offset from main feed)
+  schedule:
+    - cron: "30 * * * *"  # Run at 30 minutes past every hour (00:30, 01:30, 02:30, etc.)
   workflow_dispatch:
 
 jobs:
