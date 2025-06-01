@@ -1,0 +1,60 @@
+name: Fetch latest openphish academic intelligence to mysql
+
+on:
+  # push:
+  #   branches:
+  #     - main
+#   schedule:
+#     - cron: "0 2,14 * * *"  # Run at 02:00 and 14:00 UTC daily (offset from main feed)
+  workflow_dispatch:
+
+jobs:
+  fetch_openphish_academic_intelligence:
+    name: Fetch OpenPhish Academic Intelligence
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check running datetime
+        run: echo "Running job on $(date)"
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m venv phishdata
+          source phishdata/bin/activate
+          pip install -r requirements.txt
+
+      - name: Clone OpenPhish Academic repository
+        run: |
+          git clone https://${{ secrets.ACADEMIC_GITHUB_USERNAME }}:${{ secrets.ACADEMIC_GITHUB_PAT }}@github.com/openphish/academic
+        env:
+          ACADEMIC_GITHUB_USERNAME: ${{ secrets.ACADEMIC_GITHUB_USERNAME }}
+          ACADEMIC_GITHUB_PAT: ${{ secrets.ACADEMIC_GITHUB_PAT }}
+
+      - name: Verify CSV file exists
+        run: |
+          if [ -f "academic/feed.csv" ]; then
+            echo "CSV file found successfully"
+            echo "CSV file size: $(wc -l < academic/feed.csv) lines"
+            echo "First few lines of CSV:"
+            head -3 academic/feed.csv
+          else
+            echo "Error: CSV file not found"
+            exit 1
+          fi
+
+      - name: Fetch OpenPhish Academic Intelligence
+        run: |
+          source phishdata/bin/activate
+          python ./src/fetch_openphish_academic_intelligence.py --host ${{ secrets.MYSQL_HOST }} --user ${{ secrets.MYSQL_USER }} --password ${{ secrets.MYSQL_PASSWORD }} --port ${{ secrets.MYSQL_PORT }}
+
+      - name: Cleanup
+        run: |
+          rm -rf academic
