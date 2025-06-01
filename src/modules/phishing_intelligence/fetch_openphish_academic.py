@@ -70,7 +70,7 @@ def get_latest_url_from_db(mysql_conn) -> str:
         mysql_conn,
         "SELECT url FROM phishing_intelligence.openphish_academic ORDER BY id DESC LIMIT 1"
     )
-    return result[0]['url'] if result else None
+    return result['url'] if result else None
 
 
 def read_csv_data(csv_file_path: str) -> List[Dict[str, str]]:
