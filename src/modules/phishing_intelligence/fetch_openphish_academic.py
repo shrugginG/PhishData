@@ -146,18 +146,36 @@ def fetch_openphish_academic_intelligence(args=None):
                 continue
         
         if batch_insert_data:
-            # Insert data into database
+            # Insert data into database with update on duplicate key
             sql = """
-            INSERT IGNORE INTO phishing_intelligence.openphish_academic 
+            INSERT INTO phishing_intelligence.openphish_academic 
             (url, url_sha256, brand, ip_address, asn, asn_name, country_code, country_name, 
              tld, discover_time, family_id, host, isotime, page_language, ssl_cert_issued_by, 
              ssl_cert_issued_to, ssl_cert_serial, is_spear, sector) 
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ON DUPLICATE KEY UPDATE
+                brand = VALUES(brand),
+                ip_address = VALUES(ip_address),
+                asn = VALUES(asn),
+                asn_name = VALUES(asn_name),
+                country_code = VALUES(country_code),
+                country_name = VALUES(country_name),
+                tld = VALUES(tld),
+                discover_time = VALUES(discover_time),
+                family_id = VALUES(family_id),
+                host = VALUES(host),
+                isotime = VALUES(isotime),
+                page_language = VALUES(page_language),
+                ssl_cert_issued_by = VALUES(ssl_cert_issued_by),
+                ssl_cert_issued_to = VALUES(ssl_cert_issued_to),
+                ssl_cert_serial = VALUES(ssl_cert_serial),
+                is_spear = VALUES(is_spear),
+                sector = VALUES(sector)
             """
             
             fetch_time = datetime.now()
             affected_rows = batch_insert(mysql_conn, sql, batch_insert_data)
-            print(f"Successfully fetched OpenPhish Academic intelligence on {fetch_time} with {affected_rows} new URLs")
+            print(f"Successfully processed OpenPhish Academic intelligence on {fetch_time} with {affected_rows} records (inserted or updated)")
         else:
             print("No valid data to insert after parsing")
             
